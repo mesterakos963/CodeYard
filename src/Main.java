@@ -1,110 +1,148 @@
 import Animals.*;
+import Comparators.AnimalComparator;
+import Comparators.WorkerComparator;
+import Interfaces.Creature;
 import Workers.DepartmentHead;
 import Workers.Manager;
 import Workers.Worker;
 import Workers.ZooKeeper;
 
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.function.DoublePredicate;
+
 
 public class Main {
 
+    static FileOutputStream outputStream;
     public static void main(String[] args){
-        Zoo zoo = new Zoo();
-        Zoo.setName("CY Zoo");
 
-        Worker manager = new Manager("M01", null,"Tony");
-        DepartmentHead departmentHead = new DepartmentHead("DH01", "M01", "Dennis");
-        Worker firstZooKeeper = new ZooKeeper("ZK1", "DH01", "John", true);
-        Worker secondZooKeeper = new ZooKeeper("ZK2", "DH01", "Paul", false);
+        try {
+            outputStream = new FileOutputStream("outputFile.txt");
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred during creating the output file");
+            e.printStackTrace();
+        }
 
-        Dolphin dolphin = new Dolphin(350, "Dolphin");
-        Elephant elephant = new Elephant(4000, "Elephant");
-        Lion lion = new Lion(450, "Lion");
-        Monkey monkey = new Monkey(50, "Monkey");
-        Ostrich ostrich = new Ostrich(200, "Ostrich");
+        ArrayList<Animal> animals = (ArrayList<Animal>) createAnimals();
+        ArrayList<Worker> workers = (ArrayList<Worker>) createWorkers();
 
-        List<Animal> animals = new ArrayList<Animal>();
+        Zoo zoo = new Zoo("CY Zoo", animals, workers);
+
+        writeToFile("-- Every worker feed every animal -- \n-- They give sound, if they love the worker, otherwise move away. --\n\n");
+
+        for(int i = 0; i < zoo.getWorkers().size(); i++) {
+            feeding((Worker) zoo.getWorkers().get(i), zoo.getAnimals());
+            }
+
+        findBoss(zoo.getWorkers());
+        List<Creature> roaster = addAllCreaturesToRoaster(animals, workers);
+        printRoaster(roaster);
+        try {
+            outputStream.close();
+        } catch (IOException e) {
+            System.out.println("Unable to close file.");
+        }
+
+    }
+
+    public static void findBoss(List<Worker> workers){
+        writeToFile("\n-- Find whose boss is who--\n");
+        for (Worker workerToFindBoss : workers) {
+            if (workerToFindBoss.getBossID() == null) {
+                writeToFile(workerToFindBoss.getName() + " doesn't have Boss.\n");
+                continue;
+            }
+            for (Worker worker : workers) {
+                if (workerToFindBoss.getBossID().equals(worker.getID())) {
+                    writeToFile(workerToFindBoss.getName() + "'s Boss" + " is " + worker.getName() + "\n");
+                }
+            }
+        }
+    }
+
+    public static List<Animal> createAnimals(){
+        List<Animal> animals = new ArrayList<>();
+        Ostrich ostrich = new Ostrich(200, "Ostrich Dave", Animal.Color.BROWN);
+        Dolphin dolphin = new Dolphin(350, "Dolphin John", Animal.Color.BLUE);
+        Monkey monkey = new Monkey(50, "Monkey Nick", Animal.Color.BLACK);
+        Lion lion = new Lion(450, "Lion Simba", Animal.Color.YELLOW);
+        Elephant elephant = new Elephant(4000, "Elephant Bob", Animal.Color.GREY);
+
         animals.add(dolphin);
         animals.add(elephant);
         animals.add(lion);
         animals.add(monkey);
         animals.add(ostrich);
 
-        /*for (int i = 0; i < animals.length; i++){
-            System.out.println(animals[i].getWeight());
-            System.out.println(animals[i].getColor());
-        }*/
+        animals.sort(new AnimalComparator());
+        return animals;
+    }
 
-        System.out.println("---First ZooKeeper---");
-        for (int i = 0; i < animals.size(); i++){
-            if (firstZooKeeper instanceof ZooKeeper) {
-                animals.get(i).feed((ZooKeeper) firstZooKeeper);
-            } else {
-                System.out.println("Error");
-            }
-        }
+    public static List<Worker> createWorkers(){
+        List<Worker> workers = new ArrayList<>();
 
-        System.out.println("---Second ZooKeeper---");
-        for (int i = 0; i < animals.size(); i++){
-            if (secondZooKeeper instanceof ZooKeeper) {
-                animals.get(i).feed((ZooKeeper) secondZooKeeper);
-            } else {
-                System.out.println("Error");
-            }
-        }
+        Worker manager = new Manager("M01", null,"Tony");
+        DepartmentHead departmentHead = new DepartmentHead("DH01", "M01", "Dennis");
+        Worker firstZooKeeper = new ZooKeeper("ZK1", "DH01", "John", true);
+        Worker secondZooKeeper = new ZooKeeper("ZK2", "DH01", "Paul", false);
 
-        System.out.println("---Manager---");
-        for (int i = 0; i < animals.size(); i++){
-            if (manager instanceof ZooKeeper) {
-                animals.get(i).feed((ZooKeeper) manager);
-            } else {
-                System.out.println("Manager can't feed the " + animals.get(i).getName());
-            }
-        }
-
-        List<Worker> workers = new ArrayList<Worker>();
         workers.add(manager);
         workers.add(departmentHead);
         workers.add(firstZooKeeper);
         workers.add(secondZooKeeper);
+        workers.sort(new WorkerComparator());
 
-      //  findAllBoss(workers);
-        findBoss(workers);
+        return workers;
     }
 
-    public static void findBoss(Worker[] workers){
-        for (Worker workerToFindBoss : workers) {
-            if (workerToFindBoss.getBossID() == null) {
-                System.out.println(workerToFindBoss.getName() + " doesn't have Boss.");
-                continue;
-            }
-            for (Worker worker : workers) {
-                if (workerToFindBoss.getBossID().equals(worker.getID())) {
-                    System.out.println(workerToFindBoss.getName() + "'s Boss" + " is " + worker.getName());
-                }
-            }
-        }
-    }
-
-    /* public static void findAllBoss (Worker[] workers){
-        for(int i = 0; i < workers.length; i++){
-            System.out.println(findBoss(workers, workers[i]));
-        }
-    }
-
-    public static Worker findBoss (Worker[] workers, Worker worker){
-        for (int i = 0; i < workers.length; i++){
-            if(worker.getBossID() == null){
-                System.out.println(worker.getName() + " doesn't have Boss.");
-                break;
+    public static void feeding(Worker worker, List<Animal> animals){
+        for (Animal currentAnimal : animals) {
+            if (worker instanceof ZooKeeper) {
+                writeToFile(currentAnimal.feed((ZooKeeper) worker));
+                writeToFile(worker.getName() + " fed the " + currentAnimal.getName() + ".\n");
             } else {
-                if(worker.getBossID().equals(workers[i].getID())) {
-                    return workers[i];
-                }
+                writeToFile(worker.getName() + " can't feed the " + currentAnimal.getName() + ".\n");
             }
         }
-        return null;
-    }*/
+    }
+
+    public static List<Creature> addAllCreaturesToRoaster(ArrayList<Animal> animals, ArrayList<Worker> workers){
+        ArrayList<Creature> allCreatures = new ArrayList<>();
+        allCreatures.addAll(animals);
+        allCreatures.addAll(workers);
+        Collections.shuffle(allCreatures);
+        return allCreatures;
+    }
+
+    public static void printRoaster(List<Creature> creatures){
+        try {
+            for (int i = 0; i < 5; i++) {
+                Thread.sleep(1000);
+                System.out.println("Roaster delayed for " + (5 - i) + " seconds.");
+            }
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            System.out.println("Error during delay");
+            e.printStackTrace();
+        }
+        writeToFile("\n-- Shuffled list, that contains all workers and animals. --\n");
+        for (Creature creature : creatures) {
+            writeToFile(creature.getCreatureName() + " - " + creature.getClass().getCanonicalName().split( "\\.")[1] + "\n");
+        }
+    }
+
+    public static void writeToFile(String str) {
+        byte[] strToBytes = str.getBytes();
+        try {
+            outputStream.write(strToBytes);
+        } catch (IOException e) {
+            System.out.println("An error occurred during writing to file.");
+            e.printStackTrace();
+        }
+    }
 }

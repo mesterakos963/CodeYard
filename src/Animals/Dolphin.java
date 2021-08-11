@@ -2,31 +2,17 @@ package Animals;
 
 public class Dolphin extends Animal {
 
-    public Dolphin(int weight, String name){
-        super(name, weight);
-        setColor(color);
+    public Dolphin(int weight, String name, Color color){
+        super(name, weight, color);
     }
 
     @Override
-    public void giveSound(){
-        System.out.println("RE RE RE RE REEE!");
+    public String giveSound(){
+        return "RE RE RE RE REEE!\n";
     }
 
     @Override
-    public void move(){
-        System.out.println("Swimming");
-    }
-
-    public void setWeight(int weight){
-        super.weight = weight;
-    }
-
-    public void setColor(String color){
-        super.color = "light blue";
-    }
-
-    @Override
-    public String getColor() {
-        return color;
+    public String move(){
+        return name + " swimming\n";
     }
 }

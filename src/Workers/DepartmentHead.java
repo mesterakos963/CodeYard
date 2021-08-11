@@ -1,6 +1,5 @@
 package Workers;
 
-import java.util.Random;
 
 public class DepartmentHead extends Worker {
 
@@ -27,5 +26,4 @@ public class DepartmentHead extends Worker {
     public String getID(){
         return id;
     }
-
 }

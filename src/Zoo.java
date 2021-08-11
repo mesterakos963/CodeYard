@@ -1,16 +1,29 @@
 import Animals.Animal;
+import Workers.Worker;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Zoo {
-    /* #TODO
-     * - Név (statikus)
-     * - Állatok tömb, Animals.Animal típúsú */
 
-    public static String name;
-    ArrayList<Animal> animals = new ArrayList<>();
+    private String name;
+    ArrayList<Animal> animals;
+    ArrayList<Worker> workers;
 
-    public static void setName(String name) {
-        Zoo.name = name;
+    public Zoo(String name,ArrayList<Animal> animals, ArrayList<Worker> workers){
+        this.workers = workers;
+        this.animals = animals;
+    }
+
+    public String getName(){
+        return name;
+    }
+
+    public List<Animal> getAnimals (){
+        return animals;
+    }
+
+    public List<Worker> getWorkers () {
+        return workers;
     }
 }

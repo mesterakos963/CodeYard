@@ -11,11 +11,6 @@ public class Manager extends Worker {
     }
 
     @Override
-    public void setId(String newID) {
-        this.id = newID;
-    }
-
-    @Override
     public String getBossID() {
         return null;
     }

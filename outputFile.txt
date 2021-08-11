@@ -1,0 +1,50 @@
+-- Every worker feed every animal -- 
+-- They give sound, if they love the worker, otherwise move away. --
+
+Dennis can't feed the Dolphin John.
+Dennis can't feed the Elephant Bob.
+Dennis can't feed the Lion Simba.
+Dennis can't feed the Monkey Nick.
+Dennis can't feed the Ostrich Dave.
+RE RE RE RE REEE!
+John fed the Dolphin John.
+TRUMPET
+John fed the Elephant Bob.
+ROAR!
+John fed the Lion Simba.
+OOOH OOOH!
+John fed the Monkey Nick.
+BOOM
+John fed the Ostrich Dave.
+Dolphin John swimming
+Paul fed the Dolphin John.
+Elephant Bob walks on 4 legs
+Paul fed the Elephant Bob.
+Lion Simba walks on 4 legs
+Paul fed the Lion Simba.
+Monkey Nick jumping on trees
+Paul fed the Monkey Nick.
+Ostrich Dave walks on 2 legs
+Paul fed the Ostrich Dave.
+Tony can't feed the Dolphin John.
+Tony can't feed the Elephant Bob.
+Tony can't feed the Lion Simba.
+Tony can't feed the Monkey Nick.
+Tony can't feed the Ostrich Dave.
+
+-- Find whose boss is who--
+Dennis's Boss is Tony
+John's Boss is Dennis
+Paul's Boss is Dennis
+Tony doesn't have Boss.
+
+-- Shuffled list, that contains all workers and animals. --
+Elephant Bob - Elephant
+Monkey Nick - Monkey
+John - ZooKeeper
+Ostrich Dave - Ostrich
+Lion Simba - Lion
+Dennis - DepartmentHead
+Paul - ZooKeeper
+Dolphin John - Dolphin
+Tony - Manager

@@ -9,11 +9,6 @@ public final class ZooKeeper extends Worker {
         this.isLoved = isLoved;
     }
 
-    @Override
-    public void setId(String newId){
-        this.id = newId;
-    }
-
     public String getID(){
         return id;
     }
@@ -25,10 +20,6 @@ public final class ZooKeeper extends Worker {
     @Override
     public String getBossID() {
         return bossID;
-    }
-
-    public void setLoved(boolean newValue) {
-        this.isLoved = newValue;
     }
 
     public boolean getLoved() {

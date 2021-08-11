@@ -1,38 +1,45 @@
 package Animals;
 
-import Workers.Worker;
+import Interfaces.Creature;
 import Workers.ZooKeeper;
 
-public abstract class Animal {
+public abstract class Animal implements Creature {
 
     protected String name;
-    protected String color;
     protected int weight;
+    protected Color color;
 
-    public Animal(String name, int weight){
+    public enum Color {
+        BROWN,
+        GREY,
+        BLACK,
+        YELLOW,
+        BLUE
+    }
+
+    public Animal(String name, int weight, Color color){
         this.weight = weight;
         this.name = name;
+        this.color = color;
     }
 
     public String getName(){ return name; }
 
     public void setName(String newName) { this.name = newName; }
+    
+    public abstract String giveSound();
 
-    public int getWeight(){ return weight; }
+    public abstract String move();
 
-    public String color(){ return color; }
-
-    public abstract String getColor();
-
-    public abstract void giveSound();
-
-    public abstract void move();
-
-    public void feed(ZooKeeper worker) {
+    public String feed(ZooKeeper worker) {
         if (worker.getLoved()){
-            giveSound();
+            return giveSound();
         } else {
-            move();
+            return move();
         }
+    }
+
+    public String getCreatureName(){
+        return this.name;
     }
 }

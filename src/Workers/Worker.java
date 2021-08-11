@@ -1,6 +1,8 @@
 package Workers;
 
-public abstract class Worker {
+import Interfaces.Creature;
+
+public abstract class Worker implements Creature {
 
     protected String bossID;
     protected String name;
@@ -16,8 +18,6 @@ public abstract class Worker {
         this.name = newName;
     }
 
-    public abstract void setId(String newID);
-
     public abstract String getBossID();
 
     public abstract String getID();
@@ -26,6 +26,10 @@ public abstract class Worker {
 
     @Override
     public String toString() {
+        return this.name;
+    }
+
+    public String getCreatureName(){
         return this.name;
     }
 }

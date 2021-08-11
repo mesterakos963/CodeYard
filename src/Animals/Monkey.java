@@ -1,39 +1,19 @@
 package Animals;
 
-import Workers.Worker;
-import Workers.ZooKeeper;
-
-import java.util.Random;
-
 public class Monkey extends Animal {
 
-    public Monkey(int weight, String name){
-        super(name, weight);
-        setColor(color);
+    public Monkey(int weight, String name, Color color){
+        super(name, weight, color);
     }
 
     @Override
-    public void giveSound(){
-        System.out.println("OOOH OOOH!");
+    public String giveSound(){
+        return "OOOH OOOH!\n";
     }
 
     @Override
-    public void move(){
-        System.out.println("Jumping on trees");
-    }
-
-
-    public void setWeight(int weight){
-        super.weight = weight;
-    }
-
-    public void setColor(String color){
-        super.color = "black";
-    }
-
-    @Override
-    public String getColor() {
-        return color;
+    public String move(){
+        return name + " jumping on trees\n";
     }
 }
 
